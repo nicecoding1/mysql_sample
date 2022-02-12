@@ -1,0 +1,26 @@
+DELIMITER $$
+
+CREATE
+    
+    FUNCTION `test3`.`DepAverage`(dept VARCHAR(20))
+    RETURNS FLOAT
+    
+    BEGIN
+    
+    DECLARE result FLOAT;
+
+SELECT 평균성적 INTO result
+FROM (
+
+SELECT 학생.학과, AVG(수강.성적) AS 평균성적
+FROM 수강, 학생
+WHERE 수강.학번 = 학생.학번
+GROUP BY 학생.학과
+
+) ta 
+WHERE ta.학과=dept;
+
+RETURN result;
+    END$$
+
+DELIMITER ;
